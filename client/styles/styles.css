@@ -1,11 +1,14 @@
 
 
-
+body {
+    background-color: #00aaff;
+}
 
 #main {
     background-color: #fff;
     padding: 20px;
-    margin: 20px;
+    width: 80%;
+    margin: 20px auto;
 }
 
 #chats {
@@ -22,8 +25,13 @@
     font-weight: bold;
 }
 
+#chats .friend {
+    background-color: yellow;
+}
 
-
+#roomSelect {
+    width: 60%;
+}
 
 
 

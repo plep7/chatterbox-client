@@ -2,14 +2,17 @@
 class App {
   constructor() {
     this.server = 'https://api.parse.com/1/classes/messages';
-    this.friends = [];
+    this.friends = {};
+    this.rooms = [];
   }
   
   init () {
     console.log('We have init!');
-    $('.username').off('click').on('click', function() {
-      this.handleUsernameClick($('.username').val());
-    }.bind(this));
+    var context = this;
+    $('.username').on('click', function() {
+      console.log($(this).text());
+      context.handleUsernameClick($(this).text());
+    });
 
     $('#send').off('submit').on('submit', function(event) {
       var ourMessage = {};
@@ -26,7 +29,7 @@ class App {
       this.fetch();
     }.bind(this));    
 
-    $('#roomSelect').on('change', function() {
+    $('#roomSelect').off('change').on('change', function() {
       if ($('#roomSelect').val() === 'createNewRoom') {
         console.log('new room');
         var newRoom = prompt('What is the name of your new room?');
@@ -36,10 +39,6 @@ class App {
       this.clearMessages();
       this.fetch();
     }.bind(this));
-
-    this.fetch();
-  
-
   }
 
   send(message) {
@@ -73,7 +72,9 @@ class App {
         console.log('chatterbox: Messages fetched', data);
         var count = 0;
         for (var i = 0; i < 100; i++) {
-          if (!$(`#roomSelect option[value="${this.escapeHTML(data.results[i].roomname)}"]`).length) {
+          //if (!$(`#roomSelect option[value="${escape(data.results[i].roomname)}"]`).length > 0) {
+          if (!this.rooms.includes(escape(data.results[i].roomname))) {
+            this.rooms.push(escape(data.results[i].roomname));
             this.renderRoom(this.escapeHTML(data.results[i].roomname));
           }
 
@@ -82,6 +83,7 @@ class App {
             count++;
           }
         }
+        this.init();
       }.bind(this),
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -105,11 +107,12 @@ class App {
 
 
   renderMessage(message) {
+    var friendStatus = '';
+    if (this.friends[this.escapeHTML(message.username)]) {
+      friendStatus = 'friend';
+    }
 
-    
-
-    //var post = `<div class="message"><p class="username">${message.username}</p><p>${message.text}</p><p>${message.roomname}</p></div>`;
-    var post = `<div class="message"><p class="username">${this.escapeHTML(message.username)}</p><p>${this.escapeHTML(message.text)}</p></div>`;
+    var post = `<div class="message ${friendStatus} ${this.escapeHTML(message.username)}"><p class="username">${this.escapeHTML(message.username)}</p><p>${this.escapeHTML(message.text)}</p></div>`;
     $('#chats').append(post);
   }
 
@@ -120,7 +123,9 @@ class App {
   handleUsernameClick(username) {
     console.log('username clicked');
 
-    this.friends.push(username);
+    this.friends[username] = true;
+
+    $('.' + username).addClass('friend');
 
     console.log(this.friends);
 
