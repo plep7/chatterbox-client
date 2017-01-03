@@ -1,4 +1,47 @@
-body {
+
+
+
+
+#main {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+}
+
+#chats {
+    background-color: #ddd;
+}
+
+#chats .message {
+    background-color: #eee;
+    padding: 10px;
+    margin: 10px;
+}
+
+#chats .message .username {
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*body {
     background: #eee;
     text-align: center;
     padding: 0 25px;
@@ -65,12 +108,17 @@ form input[type=text] {
     background-color: #eee;
 }
 
-.chat .username {
-    font-weight: 800;
+#chats .username {
+    font-weight: bold;
+}
+
+#chats .message {
+    background-color: #ddd;
+    margin: 20px;
 }
 
 .chat:hover {
-    background-color: #ddd;
+    background-color: #bbb;
 }
 
 .spinner {
@@ -87,4 +135,4 @@ form input[type=text] {
     color: #fff;
     background-color: #0090da;
 }
-
+*/

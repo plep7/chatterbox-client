@@ -2,18 +2,25 @@
 class App {
   constructor() {
     this.server = 'https://api.parse.com/1/classes/messages';
-    this.init();
   }
   
   init () {
+    console.log('We have init!');
     $('.username').off('click').on('click', function() {
       this.handleUsernameClick();
     }.bind(this));
 
-    $('#send').off('submit').on('submit', function() {
-      this.handleSubmit();
-      
+    $('#send').off('submit').on('submit', function(event) {
+      var ourMessage = {};
+      ourMessage.username = 'Pat'; 
+      ourMessage.text = $('#message').val();
+      ourMessage.roomname = 'Main Lobby'; 
+      console.log(ourMessage);
+      this.handleSubmit(ourMessage);
+      event.preventDefault();
     }.bind(this));
+
+    this.fetch();
   
 
   }
@@ -43,8 +50,11 @@ class App {
       //data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        console.log('chatterbox: Messages fetched', data);
-      },
+        //console.log('chatterbox: Messages fetched', data);
+        for (var i = 0; i < 5; i++) {
+          this.renderMessage(data.results[i]);
+        }
+      }.bind(this),
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
         console.error('chatterbox: Failed to fetch messages', data);
@@ -57,7 +67,7 @@ class App {
   }
 
   renderMessage(message) {
-    var post = `<div><p class="username">${message.username}</p><p>${message.text}</p><p>${message.roomname}</p></div>`;
+    var post = `<div class="message"><p class="username">${message.username}</p><p>${message.text}</p><p>${message.roomname}</p></div>`;
     $('#chats').append(post);
   }
 
@@ -70,9 +80,11 @@ class App {
     console.log('username clicked');
   }
 
-  handleSubmit() {
-    console.log('submitted');
+  handleSubmit(input) {
+    this.renderMessage(input);
   }
 }
 
 var app = new App();
+
+//app.init();
