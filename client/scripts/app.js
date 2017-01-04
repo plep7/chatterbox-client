@@ -3,7 +3,8 @@ class App {
   constructor() {
     this.server = 'https://api.parse.com/1/classes/messages';
     this.friends = {};
-    this.rooms = [];
+    this.rooms = ['lobby'];
+    this.currentRoom = 'lobby';
   }
   
   init () {
@@ -18,27 +19,51 @@ class App {
       var ourMessage = {};
       ourMessage.username = window.location.search.slice(10); 
       ourMessage.text = $('#message').val();
-      ourMessage.roomname = $('#roomSelect').val();
+      ourMessage.roomname = this.currentRoom;
       console.log(ourMessage);
       this.handleSubmit(ourMessage);
       event.preventDefault();
     }.bind(this));
+
+    $('#createRoom').off('submit').on('submit', function(event) {
+      
+      var newRoom = $('#createRoomName').val();
+      context.renderRoom(newRoom);
+      context.currentRoom = newRoom;
+      context.rooms.push(newRoom);
+      context.clearMessages();
+      context.fetch();
+
+      console.log(newRoom);
+
+      event.preventDefault();
+    });
 
     $('#refresh').off('click').on('click', function() {
       this.clearMessages();
       this.fetch();
     }.bind(this));    
 
-    $('#roomSelect').off('change').on('change', function() {
-      if ($('#roomSelect').val() === 'createNewRoom') {
-        console.log('new room');
-        var newRoom = prompt('What is the name of your new room?');
-        this.renderRoom(newRoom);
-        $('#roomSelect').val(newRoom).change();
-      }
-      this.clearMessages();
-      this.fetch();
-    }.bind(this));
+
+    $('#roomSelect li a').off('click').on('click', function() {
+      console.log($(this).text());
+      context.currentRoom = $(this).text();
+      context.clearMessages();
+      context.fetch();
+      //context.handleUsernameClick($(this).text());
+    });
+
+
+    // $('#roomSelect').off('change').on('change', function() {
+    //   if ($('#roomSelect').val() === 'createNewRoom') {
+    //     console.log('new room');
+    //     var newRoom = prompt('What is the name of your new room?');
+    //     this.renderRoom(newRoom);
+    //     $('#roomSelect').val(newRoom).change();
+    //   }
+    //   this.clearMessages();
+    //   this.fetch();
+    // }.bind(this));
   }
 
   send(message) {
@@ -78,7 +103,7 @@ class App {
             this.renderRoom(this.escapeHTML(data.results[i].roomname));
           }
 
-          if ((data.results[i].roomname) === $('#roomSelect').val() && count < 100) {
+          if ((data.results[i].roomname) === this.currentRoom && count < 100) {
             this.renderMessage(data.results[i]);
             count++;
           }
@@ -117,7 +142,8 @@ class App {
   }
 
   renderRoom(name) {
-    $('#roomSelect').append(`<option value="${name}">${name}</option>`);
+    //$('#roomSelect').append(`<option value="${name}">${name}</option>`);
+    $('#roomSelect').append(`<li class="${name}"><a href="#">${name}</a></li>`);
   }
 
   handleUsernameClick(username) {

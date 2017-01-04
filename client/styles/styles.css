@@ -4,6 +4,11 @@ body {
     background-color: #00aaff;
 }
 
+.wrapper {
+    background-color: #dddddd;
+    padding: 20px;
+}
+
 #main {
     background-color: #fff;
     padding: 20px;
@@ -13,6 +18,8 @@ body {
 
 #chats {
     background-color: #ddd;
+    height: 500px;
+    overflow: auto;
 }
 
 #chats .message {
@@ -30,10 +37,16 @@ body {
 }
 
 #roomSelect {
-    width: 60%;
+    width: 250px;
 }
 
-
+#roomSelect li a {
+    overflow: hidden;
+    -ms-text-overflow: ellipisis;
+    -o-text-overflow: ellipisis;
+    text-overflow: ellipisis;
+    display: block;
+}
 
 
 
