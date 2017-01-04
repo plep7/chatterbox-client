@@ -35,10 +35,17 @@
 
     <div class="container-fluid">
       
+
+
+
+
+
       <div class="row">
         <div class="wrapper col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
 
-
+        <div class="page-header">
+          <h1>chatterbox <small>make all your wildest chat dreams come true</small></h1>
+        </div>
 
 
 
@@ -75,6 +82,7 @@
 
 
 
+                    <li><a href="#">All</a></li>
                     <li><a href="#">lobby</a></li>
                     <li role="separator" class="divider"></li>
                     
@@ -83,8 +91,8 @@
                   </ul>
                 </li>
               </ul>
-              <button id="refresh" class="btn btn-default">Refresh Feed</button>
-              <form id="createRoom" class="navbar-form navbar-left">
+<!--               <button id="refresh" class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button> -->
+              <form id="createRoom" class="navbar-form navbar-right">
 
                 <div class="form-group">
                   <input type="text" id="createRoomName" name="createRoomName" class="form-control" placeholder="New Room">
@@ -105,16 +113,21 @@
           <hr>
 
           <div id="chats"></div>
+          <div id="chatsBG"></div>
 
           <hr>
 
-          <div class="form-group">
+          <div class="row">
             <form id="send" method="post">
-              <label for="roomSelect">Your Message:</label>
-              <input type="text" name="message" id="message" class="form-control"/>
-              <input type="submit" name="submit" class="submit btn btn-default btn-lg" />
+              <div class="col-xs-10">
+                <input type="text" name="message" id="message" class="form-control" placeholder="Your message..."/>
+              </div>
+              <div class="col-xs-2">
+                <input type="submit" name="submit" class="submit btn btn-primary" />
+              </div>
             </form>
           </div>
+          
 
 
         </div>

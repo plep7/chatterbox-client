@@ -7,6 +7,9 @@ body {
 .wrapper {
     background-color: #dddddd;
     padding: 20px;
+    border: 2px solid #bbb;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
 #main {
@@ -20,12 +23,23 @@ body {
     background-color: #ddd;
     height: 500px;
     overflow: auto;
+    position: relative;
+
+}
+#chatsBG {
+    position: absolute;
+    bottom: 95px;
+    width: 95%;
+    height: 20px;
+    background: linear-gradient(to bottom, rgba(255,0,0,0), #ddd); /*Standard*/
 }
 
 #chats .message {
     background-color: #eee;
     padding: 10px;
     margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
 #chats .message .username {
@@ -33,7 +47,7 @@ body {
 }
 
 #chats .friend {
-    background-color: yellow;
+    background-color: #99e3ff;
 }
 
 #roomSelect {
@@ -48,112 +62,15 @@ body {
     display: block;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*body {
-    background: #eee;
-    text-align: center;
-    padding: 0 25px;
-    font-family: arial, sans-serif;
+.username:hover{
+    cursor: pointer;
 }
 
-#main, #chats {
-    width: 500px;
-    margin: auto;
-    text-align: left;
-    background: white;
-    padding: 50px 60px;
-    border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+.collapse > .nav {
+    width: 80%;
 }
 
-#main h1 {
-    margin-top: 0;
-    font-size: 35px;
-    margin-bottom: 5px;
-    padding: 5px;
+.page-header {
+    margin-top: 10px;
 }
 
-#main h1 span {
-    font-style:italic;
-}
-
-#main ul {
-    padding-left: 20px;
-}
-
-#main .error {
-    border: 1px solid red;
-    background: #FDEFF0;
-    padding: 20px;
-}
-
-#main .success {
-    margin-top: 25px;
-}
-
-#main .success code {
-    font-size: 12px;
-    color: green;
-    line-height: 13px;
-}
-
-form {
-    padding: 20px;
-    padding-left: 0;
-    margin-bottom: 20px;
-}
-
-form input[type=text] {
-    margin-right: 10px;
-    width: 70%;
-    font-size: 12px;
-    padding: 5px;
-}
-
-.chat {
-    padding: 5px;
-    margin-bottom: 5px;
-    background-color: #eee;
-}
-
-#chats .username {
-    font-weight: bold;
-}
-
-#chats .message {
-    background-color: #ddd;
-    margin: 20px;
-}
-
-.chat:hover {
-    background-color: #bbb;
-}
-
-.spinner {
-    float: right;
-    height: 46px;
-    margin-bottom: 5px;
-}
-
-.spinner img {
-    padding: 10px;
-}
-
-.friend {
-    color: #fff;
-    background-color: #0090da;
-}
-*/

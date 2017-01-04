@@ -3,8 +3,9 @@ class App {
   constructor() {
     this.server = 'https://api.parse.com/1/classes/messages';
     this.friends = {};
-    this.rooms = ['lobby'];
+    this.rooms = ['All', 'lobby'];
     this.currentRoom = 'lobby';
+    this.intervalSet = false;
   }
   
   init () {
@@ -39,14 +40,18 @@ class App {
       event.preventDefault();
     });
 
-    $('#refresh').off('click').on('click', function() {
-      this.clearMessages();
-      this.fetch();
-    }.bind(this));    
+    // $('#refresh').off('click').on('click', function() {
+    //   this.fetch();
+    // }.bind(this));    
 
+    if (!this.intervalSet) {
+      setInterval(function() {
+        this.fetch();
+        this.intervalSet = true;
+      }.bind(this), 1000);
+    }
 
     $('#roomSelect li a').off('click').on('click', function() {
-      console.log($(this).text());
       context.currentRoom = $(this).text();
       context.clearMessages();
       context.fetch();
@@ -61,7 +66,6 @@ class App {
     //     this.renderRoom(newRoom);
     //     $('#roomSelect').val(newRoom).change();
     //   }
-    //   this.clearMessages();
     //   this.fetch();
     // }.bind(this));
   }
@@ -76,7 +80,6 @@ class App {
       success: function (data) {
         console.log('chatterbox: Message sent');
         //this.renderMessage(message);
-        this.clearMessages();
         this.fetch();
       }.bind(this),
       error: function (data) {
@@ -95,6 +98,7 @@ class App {
       contentType: 'application/json',
       success: function (data) {
         console.log('chatterbox: Messages fetched', data);
+        this.clearMessages();
         var count = 0;
         for (var i = 0; i < 100; i++) {
           //if (!$(`#roomSelect option[value="${escape(data.results[i].roomname)}"]`).length > 0) {
@@ -102,12 +106,15 @@ class App {
             this.rooms.push(escape(data.results[i].roomname));
             this.renderRoom(this.escapeHTML(data.results[i].roomname));
           }
-
-          if ((data.results[i].roomname) === this.currentRoom && count < 100) {
+          if (this.currentRoom === 'All' && count < 100) {
+            this.renderMessage(data.results[i]);
+            count++;
+          } else if ((data.results[i].roomname) === this.currentRoom && count < 100) {
             this.renderMessage(data.results[i]);
             count++;
           }
         }
+        $('.navbar-brand').text(this.currentRoom);
         this.init();
       }.bind(this),
       error: function (data) {
@@ -118,7 +125,7 @@ class App {
   }
 
   clearMessages() {
-    $('#chats').html('');
+    $('#chats').empty();
   }
 
   escapeHTML(value) {
